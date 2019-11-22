@@ -33,6 +33,23 @@ class Hero:
     def add_armor(self, armor):
         self.armors.append(armor)
 
+    def attack(self):
+
+        total_damage = 0
+
+        for ability in self.abilities:
+            total_damage += ability.attack()
+
+        return total_damage
+
+    def defend(self, damage_amt):
+
+        total_damage = damage_amt
+
+        for armor in self.armors:
+            total -= armor.block()
+
+        return total_damage
 
 if __name__ == "__main__":
     # If you run this file from the terminal
