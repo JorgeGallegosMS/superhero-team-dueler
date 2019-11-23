@@ -109,6 +109,14 @@ class Team:
         if not foundHero:
             return 0
 
+    def view_all_heroes(self):
+        
+        for hero in self.heroes:
+            print(hero.name)
+
+    def add_hero(self, hero):
+        self.heroes.append(hero)
+
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
