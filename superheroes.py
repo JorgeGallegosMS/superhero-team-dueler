@@ -18,6 +18,12 @@ class Armor:
         random_value = random.randint(0, self.max_block)
         return random_value
 
+class Weapon(Ability):
+    def attack(self):
+        half_max_damage= self.max_damage // 2
+        random_value = random.randint(half_max_damage, self.max_damage)
+        return random_value
+
 class Hero:
     def __init__(self, name, starting_health=100):
         self.name = name
@@ -32,6 +38,9 @@ class Hero:
 
     def add_armor(self, armor):
         self.armors.append(armor)
+
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
 
     def attack(self):
 
@@ -85,15 +94,7 @@ class Hero:
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
-
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
