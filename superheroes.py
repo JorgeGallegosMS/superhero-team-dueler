@@ -42,21 +42,58 @@ class Hero:
 
         return total_damage
 
-    def defend(self, damage_amt):
+    def defend(self):
 
-        total_damage = damage_amt
+        total_block = 0
 
         for armor in self.armors:
-            total -= armor.block()
+            total_block += armor.block()
 
-        return total_damage
+        return total_block
+
+    def take_damage(self, damage):
+        defense = self.defend()
+        self.current_health -= damage - defense
+
+    def is_alive(self):
+        
+        if self.current_health <= 0:
+            return False
+        
+        return True
+
+    def fight(self, opponent):
+
+        if self.abilities == [] and opponent.abilities == []:
+            print("Draw")
+        else:
+            while self.is_alive() and opponent.is_alive():
+                my_dmg = self.attack()
+                opponent.take_damage(my_dmg)
+                
+                if opponent.is_alive():
+                    opponent_dmg = opponent.attack()
+                    self.take_damage(opponent_dmg)
+
+                    if self.is_alive():
+                        continue
+                    else:
+                        print(f"{opponent.name} wins!")
+                else:
+                    print(f"{self.name} wins!")
 
 if __name__ == "__main__":
     # If you run this file from the terminal
-    # this block of code is executed.
-    ability = Ability("Great Debugging", 50)
-    another_ability = Ability("Smarty Pants", 90)
-    hero = Hero("Grace Hopper", 200)
-    hero.add_ability(ability)
-    hero.add_ability(another_ability)
-    print(hero.attack())
+    # this block is executed.
+
+    hero1 = Hero("Wonder Woman")
+    hero2 = Hero("Dumbledore")
+    ability1 = Ability("Super Speed", 300)
+    ability2 = Ability("Super Eyes", 130)
+    ability3 = Ability("Wizard Wand", 80)
+    ability4 = Ability("Wizard Beard", 20)
+    hero1.add_ability(ability1)
+    hero1.add_ability(ability2)
+    hero2.add_ability(ability3)
+    hero2.add_ability(ability4)
+    hero1.fight(hero2)
