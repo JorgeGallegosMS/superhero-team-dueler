@@ -130,6 +130,39 @@ class Team:
     def add_hero(self, hero):
         self.heroes.append(hero)
 
+    def stats(self):
+        
+        for hero in self.heroes:
+            kd = hero.kills / hero.deaths
+            print(f"{hero.name} K/D: {kd}")
+
+    def revive_heroes(self):
+
+        for hero in self.heroes:
+            hero.current_health = hero.starting_health
+
+    def attack(self, other_team):
+
+        living_heroes = list()
+        living_opponents = list()
+
+        for hero in self.heroes:
+            living_heroes.append(hero)
+
+        for hero in other_team.heroes:
+            living_opponents.append(hero)
+
+        while len(living_heroes) > 0 and len(living_opponents) > 0:
+            my_hero = random.choice(living_heroes)
+            opponent = random.choice(living_opponents)
+
+            my_hero.fight(opponent)
+
+            if my_hero.is_alive():
+                living_opponents.remove(opponent)
+            else:
+                living_heroes.remove(my_hero)
+
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
