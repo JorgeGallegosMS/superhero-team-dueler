@@ -165,8 +165,8 @@ class Team:
 
 class Arena:
     def __init__(self):
-        team_one = None
-        team_two = None
+        self.team_one = None
+        self.team_two = None
 
     def create_ability(self):
         name = input("Ability Name: ")
@@ -191,7 +191,7 @@ class Arena:
         hero = Hero(hero_name)
         add_item = None
         while add_item != "4":
-            add_item = input("1. Add an ability\n2. Add Weapon\n3. Add Armor\n4. Done adding items\n\nWhat would you like to do?")
+            add_item = input("1. Add an ability\n2. Add Weapon\n3. Add Armor\n4. Done adding items\n\nWhat would you like to do?\n")
             if add_item == "1":
                 ability = self.create_ability()
                 hero.add_ability(ability)
@@ -204,10 +204,73 @@ class Arena:
 
         return hero
 
+    def build_team_one(self):
+        team_name = input("Team 1 Name: ")
+        num_heroes = int(input("How many heroes would you like on this team?\n"))
+        team = Team(team_name)
+
+        for _ in range(num_heroes):
+            hero = self.create_hero()
+            team.add_hero(hero)
+
+        self.team_one = team
+
+    def build_team_two(self):
+        team_name = input("Team 2 Name: ")
+        num_heroes = int(input("How many heroes would you like on this team?\n"))
+        team = Team(team_name)
+
+        for _ in range(num_heroes):
+            hero = self.create_hero()
+            team.add_hero(hero)
+
+        self.team_two = team
+
+    def team_battle(self):
+        self.team_one.attack(self.team_two)
+
+    def show_stats(self):
+        alive_heroes = [hero.name for hero in self.team_one.heroes if hero.is_alive()]
+        alive_enemies = [hero.name for hero in self.team_two.heroes if hero.is_alive()]
+        hero_kills = 0
+        hero_deaths = 0
+        enemy_kills = 0
+        enemy_deaths = 0
+
+        if len(alive_heroes) > len(alive_enemies):
+            print(f"{self.team_one.name} Wins!")
+        elif len(alive_heroes) < len(alive_enemies):
+            print(f"{self.team_two.name} Wins!")
+        else:
+            print("It's a draw")
+
+        for hero in self.team_one.heroes:
+            hero_kills += hero.kills
+            hero_deaths += hero.deaths
+
+        for enemy in self.team_two.heroes:
+            enemy_kills += enemy.kills
+            enemy_deaths += enemy.deaths
+
+        print(f"K/D for {self.team_one.name}: {hero_kills/hero_deaths}")
+        print(f"K/D for {self.team_two.name}: {enemy_kills/enemy_deaths}")
+
 if __name__ == "__main__":
-    # If you run this file from the terminal
-    # this block is executed.
-    hero = Hero("Wonder Woman")
-    weapon = Weapon("Lasso of Truth", 90)
-    hero.add_weapon(weapon)
-    print(hero.attack())
+    game_is_running = True
+
+    arena = Arena()
+
+    arena.build_team_one()
+    arena.build_team_two()
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        if play_again.lower() == "n":
+            game_is_running = False
+        else:
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
