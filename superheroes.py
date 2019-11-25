@@ -163,6 +163,23 @@ class Team:
             else:
                 living_heroes.remove(my_hero)
 
+class Arena:
+    def __init__(self):
+        team_one = None
+        team_two = None
+
+    def create_ability(self):
+        name = input("Ability Name: ")
+        max_damage = input("Max Damage: ")
+
+        return Ability(name, max_damage)
+
+    def create_weapon(self):
+        name = input("Weapon Name: ")
+        max_damage = input("Max Damage: ")
+
+        return Weapon(name, max_damage)
+
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
