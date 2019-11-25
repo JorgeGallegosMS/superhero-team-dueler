@@ -170,15 +170,39 @@ class Arena:
 
     def create_ability(self):
         name = input("Ability Name: ")
-        max_damage = input("Max Damage: ")
+        max_damage = int(input("Max Damage: "))
 
         return Ability(name, max_damage)
 
     def create_weapon(self):
         name = input("Weapon Name: ")
-        max_damage = input("Max Damage: ")
+        max_damage = int(input("Max Damage: "))
 
         return Weapon(name, max_damage)
+
+    def create_armor(self):
+        name = input("Armor Name: ")
+        max_block = int(input("Max Block: "))
+
+        return Armor(name, max_block)
+
+    def create_hero(self):
+        hero_name = input("Hero name: ")
+        hero = Hero(hero_name)
+        add_item = None
+        while add_item != "4":
+            add_item = input("1. Add an ability\n2. Add Weapon\n3. Add Armor\n4. Done adding items\n\nWhat would you like to do?")
+            if add_item == "1":
+                ability = self.create_ability()
+                hero.add_ability(ability)
+            elif add_item == "2":
+                weapon = self.create_weapon()
+                hero.add_weapon(weapon)
+            elif add_item == "3":
+                armor = self.create_armor()
+                hero.add_armor(armor)
+
+        return hero
 
 if __name__ == "__main__":
     # If you run this file from the terminal
